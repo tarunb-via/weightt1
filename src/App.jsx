@@ -3,20 +3,19 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { Activity, Scale, Target, TrendingDown, TrendingUp, CalendarDays, RefreshCcw } from 'lucide-react';
-import clsx from 'clsx';
 import SummaryCard from './components/SummaryCard';
 import WeightForm from './components/WeightForm';
 import WeightList from './components/WeightList';
 
-const emptyForm = {
+const createEmptyForm = () => ({
   date: format(new Date(), 'yyyy-MM-dd'),
   weight: '',
   note: '',
-};
+});
 
 export default function App() {
   const [entries, setEntries] = useState([]);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(createEmptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -70,7 +69,7 @@ export default function App() {
         weight: Number(form.weight),
         note: form.note,
       });
-      setForm(emptyForm);
+      setForm(createEmptyForm());
       await loadEntries();
     } catch {
       setError('Saving failed. Check your entry and try again.');
